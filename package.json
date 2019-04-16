@@ -1,5 +1,5 @@
 {
-  "name": "object-fabricator",
+  "name": "@homerun-gmbh/object-fabricator",
   "version": "0.3.0",
   "description": "A simple JavaScript object fabricator.",
   "main": "src/index.js",
