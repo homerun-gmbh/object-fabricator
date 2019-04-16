@@ -1,0 +1,26 @@
+{
+  "name": "object-fabricator",
+  "version": "0.3.0",
+  "description": "A simple JavaScript object fabricator.",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "jest __tests__"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/homerun-gmbh/object-fabricator.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/homerun-gmbh/object-fabricator/issues"
+  },
+  "homepage": "https://github.com/homerun-gmbh/object-fabricator#readme",
+  "devDependencies": {
+    "@babel/core": "^7.4.3",
+    "@babel/plugin-proposal-class-properties": "^7.4.0",
+    "@babel/preset-env": "^7.4.3",
+    "babel-jest": "^24.7.1",
+    "jest": "^24.7.1"
+  }
+}
