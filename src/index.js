@@ -1,3 +1,5 @@
+import template from 'lodash/template';
+
 export function validateModelName(modelName) {
   if (typeof modelName !== 'string') {
     throw new Error('Please provide a valid model name');
@@ -11,7 +13,6 @@ export function validateAttributes(attributes) {
 
   Object.values(attributes).forEach((attrValue) => {
     const attrType = typeof attrValue;
-    let pass;
 
     if (attrType.match(/^(function|string|boolean)$/)) { return; }
 
@@ -84,16 +85,18 @@ class ObjectFabricator {
     this.associations.push(instance);
   }
 
-  fillAttr(attribute) {
+  fillAttr(attribute, fabricatedObject) {
     if (typeof attribute === 'function') { return attribute(this); }
 
-    return attribute;
+    const attrCompiler = template(attribute)
+
+    return attrCompiler(fabricatedObject);
   }
 
   fabricateObject(attrs) {
     this.generateId();
     const filledAttrs = Object.keys(attrs).reduce((fabricatedObject, key) => {
-      const value = this.fillAttr(attrs[key]);
+      const value = this.fillAttr(attrs[key], fabricatedObject);
 
       return { ...fabricatedObject, [key]: value };
     }, {});

@@ -5,7 +5,7 @@ const buildTestUserFabricator = attributes => (
     'User',
     {
       name: 'Frodo',
-      age: 30,
+      age: '30',
       email: 'Frodo@mail.com',
       ...attributes
     }
@@ -176,6 +176,19 @@ describe('#create', () => {
 
   it('can handle sequential attributes', () => {
     expect(userObject).toMatchObject({ email: 'frodo_1@mail.com' });
+  });
+
+  it('can handle references to previous attributes', () => {
+    userFabricator = buildTestUserFabricator({
+      name: ObjectFabricator.sequence(n => `Test User ${n}`),
+      email: ObjectFabricator.sequence(n => `test_user${n}@mail.com`),
+      book: ObjectFabricator.associateToMany(bookFabricator, 3),
+      author: "${name}"
+    });
+
+    const userWithAuthor = userFabricator.create();
+
+    expect(userWithAuthor.author).toEqual('Test User 1');
   });
 
   describe('when attributes are passed', () => {
