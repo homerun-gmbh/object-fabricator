@@ -8,6 +8,18 @@ export function validateAttributes(attributes) {
   if (typeof attributes !== 'object') {
     throw new Error('Please provide attributes as an object');
   }
+
+  Object.values(attributes).forEach((attrValue) => {
+    const attrType = typeof attrValue;
+    let pass;
+
+    if (attrType.match(/^(function|string|boolean)$/)) { return; }
+
+    throw new Error(
+      'Attribute values can only be functions, strings'
+      + ` or booleans, but received: ${attrType}`
+    )
+  })
 }
 
 export function validateCreateMany(count, attributes) {

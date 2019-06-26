@@ -64,8 +64,12 @@ describe('#constructor', () => {
   });
 
   it('validates attributes', () => {
-    function invalidAttributes() {
+    function invalidObjectAttributes() {
       new ObjectFabricator('User', 3);
+    }
+
+    function invalidNoneStringValue() {
+      new ObjectFabricator('User', { age: 30 });
     }
 
     function objectAttribute() {
@@ -76,8 +80,13 @@ describe('#constructor', () => {
       new ObjectFabricator('User', () => {});
     }
 
-    expect(invalidAttributes)
+    expect(invalidObjectAttributes)
       .toThrowError('Please provide attributes as an object');
+    expect(invalidNoneStringValue)
+      .toThrowError(
+        'Attribute values can only be'
+        + ' functions, strings or booleans, but received: number'
+      );
     expect(functionAttribute)
       .toThrowError('Please provide attributes as an object');
     expect(objectAttribute).not.toThrowError();
@@ -86,7 +95,7 @@ describe('#constructor', () => {
   it('saves the attributes', () => {
     expect(userFabricator.attributes).toEqual({
       name: 'Frodo',
-      age: 30,
+      age: '30',
       email: 'Frodo@mail.com',
     });
   });
@@ -212,7 +221,7 @@ describe('#create', () => {
         id: 1,
         name: 'Test User 1',
         email: 'test_user1@mail.com',
-        age: 30,
+        age: '30',
         book: [
           { id: 1, title: 'Book 1' },
           { id: 2, title: 'Book 2' },
@@ -296,7 +305,7 @@ describe('#createMany', () => {
             id: 1,
             name: 'Test User 1',
             email: 'test_user1@mail.com',
-            age: 30,
+            age: '30',
             book: [
               { id: 1, title: 'Book 1' },
               { id: 2, title: 'Book 2' },
@@ -307,7 +316,7 @@ describe('#createMany', () => {
             id: 2,
             name: 'Test User 2',
             email: 'test_user2@mail.com',
-            age: 30,
+            age: '30',
             book: [
               { id: 4, title: 'Book 4' },
               { id: 5, title: 'Book 5' },
