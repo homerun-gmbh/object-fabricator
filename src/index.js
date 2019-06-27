@@ -44,10 +44,15 @@ class ObjectFabricator {
     this.currentId = 0;
     this.count = 0;
     this.associations = [];
+    this.filledAttrs = {};
   }
 
   static sequence(sequenceValueFunction) {
     return instance => sequenceValueFunction(instance.currentId);
+  }
+
+  static template (templateValueFunction) {
+    return instance => templateValueFunction(instance.filledAttrs);
   }
 
   static associate(fabricator, attributes = {}) {
@@ -85,23 +90,22 @@ class ObjectFabricator {
     this.associations.push(instance);
   }
 
-  fillAttr(attribute, fabricatedObject) {
+  fillAttr(attribute) {
     if (typeof attribute === 'function') { return attribute(this); }
 
-    const attrCompiler = template(attribute)
-
-    return attrCompiler(fabricatedObject);
+    return attribute;
   }
 
   fabricateObject(attrs) {
     this.generateId();
-    const filledAttrs = Object.keys(attrs).reduce((fabricatedObject, key) => {
-      const value = this.fillAttr(attrs[key], fabricatedObject);
 
-      return { ...fabricatedObject, [key]: value };
-    }, {});
+    Object.keys(attrs).forEach((key) => {
+      const value = this.fillAttr(attrs[key]);
 
-    return { id: this.currentId, ...filledAttrs };
+      this.filledAttrs = { ...this.filledAttrs, [key]: value };
+    });
+
+    return { id: this.currentId, ...this.filledAttrs };
   }
 
   associationCreate(instance, attributes) {

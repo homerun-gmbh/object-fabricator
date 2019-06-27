@@ -169,17 +169,15 @@ describe('#create', () => {
     expect(userObject).toMatchObject({ email: 'frodo_1@mail.com' });
   });
 
-  it('can handle references to previous attributes', () => {
+  it('can handle template attributes', () => {
     userFabricator = buildTestUserFabricator({
-      name: ObjectFabricator.sequence(n => `Test User ${n}`),
-      email: ObjectFabricator.sequence(n => `test_user${n}@mail.com`),
-      book: ObjectFabricator.associateToMany(bookFabricator, 3),
-      author: "${name}"
+      name: ObjectFabricator.sequence(n => `TestUser${n}`),
+      email: ObjectFabricator.template(n => `${n.name}@gmail.com`)
     });
 
     const userWithAuthor = userFabricator.create();
 
-    expect(userWithAuthor.author).toEqual('Test User 1');
+    expect(userWithAuthor.email).toEqual('TestUser1@gmail.com');
   });
 
   describe('when attributes are passed', () => {
