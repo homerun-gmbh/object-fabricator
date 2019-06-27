@@ -1,5 +1,3 @@
-import template from 'lodash/template';
-
 export function validateModelName(modelName) {
   if (typeof modelName !== 'string') {
     throw new Error('Please provide a valid model name');
