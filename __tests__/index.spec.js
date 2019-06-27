@@ -64,12 +64,8 @@ describe('#constructor', () => {
   });
 
   it('validates attributes', () => {
-    function invalidObjectAttributes() {
+    function invalidAttributes() {
       new ObjectFabricator('User', 3);
-    }
-
-    function invalidNoneStringValue() {
-      new ObjectFabricator('User', { age: 30 });
     }
 
     function objectAttribute() {
@@ -80,13 +76,8 @@ describe('#constructor', () => {
       new ObjectFabricator('User', () => {});
     }
 
-    expect(invalidObjectAttributes)
+    expect(invalidAttributes)
       .toThrowError('Please provide attributes as an object');
-    expect(invalidNoneStringValue)
-      .toThrowError(
-        'Attribute values can only be'
-        + ' functions, strings or booleans, but received: number'
-      );
     expect(functionAttribute)
       .toThrowError('Please provide attributes as an object');
     expect(objectAttribute).not.toThrowError();
