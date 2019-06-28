@@ -172,7 +172,7 @@ describe('#create', () => {
   it('can handle template attributes', () => {
     userFabricator = buildTestUserFabricator({
       name: ObjectFabricator.sequence(n => `TestUser${n}`),
-      email: ObjectFabricator.template(n => `${n.name}@gmail.com`)
+      email: ObjectFabricator.template(({ name }) => `${name}@gmail.com`)
     });
 
     const userWithAuthor = userFabricator.create();
