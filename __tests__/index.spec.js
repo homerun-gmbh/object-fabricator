@@ -5,7 +5,7 @@ const buildTestUserFabricator = attributes => (
     'User',
     {
       name: 'Frodo',
-      age: 30,
+      age: '30',
       email: 'Frodo@mail.com',
       ...attributes
     }
@@ -86,7 +86,7 @@ describe('#constructor', () => {
   it('saves the attributes', () => {
     expect(userFabricator.attributes).toEqual({
       name: 'Frodo',
-      age: 30,
+      age: '30',
       email: 'Frodo@mail.com',
     });
   });
@@ -169,6 +169,17 @@ describe('#create', () => {
     expect(userObject).toMatchObject({ email: 'frodo_1@mail.com' });
   });
 
+  it('can handle template attributes', () => {
+    userFabricator = buildTestUserFabricator({
+      name: ObjectFabricator.sequence(n => `TestUser${n}`),
+      email: ObjectFabricator.template(({ name }) => `${name}@gmail.com`)
+    });
+
+    const userWithAuthor = userFabricator.create();
+
+    expect(userWithAuthor.email).toEqual('TestUser1@gmail.com');
+  });
+
   describe('when attributes are passed', () => {
     it('overrides the initialized attributes that are duplicate', () => {
       userObject = userFabricator.create({ name: 'Sam' });
@@ -212,7 +223,7 @@ describe('#create', () => {
         id: 1,
         name: 'Test User 1',
         email: 'test_user1@mail.com',
-        age: 30,
+        age: '30',
         book: [
           { id: 1, title: 'Book 1' },
           { id: 2, title: 'Book 2' },
@@ -296,7 +307,7 @@ describe('#createMany', () => {
             id: 1,
             name: 'Test User 1',
             email: 'test_user1@mail.com',
-            age: 30,
+            age: '30',
             book: [
               { id: 1, title: 'Book 1' },
               { id: 2, title: 'Book 2' },
@@ -307,7 +318,7 @@ describe('#createMany', () => {
             id: 2,
             name: 'Test User 2',
             email: 'test_user2@mail.com',
-            age: 30,
+            age: '30',
             book: [
               { id: 4, title: 'Book 4' },
               { id: 5, title: 'Book 5' },

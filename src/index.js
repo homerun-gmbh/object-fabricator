@@ -31,10 +31,15 @@ class ObjectFabricator {
     this.currentId = 0;
     this.count = 0;
     this.associations = [];
+    this.filledAttrs = {};
   }
 
   static sequence(sequenceValueFunction) {
     return instance => sequenceValueFunction(instance.currentId);
+  }
+
+  static template (templateValueFunction) {
+    return instance => templateValueFunction(instance.filledAttrs);
   }
 
   static associate(fabricator, attributes = {}) {
@@ -80,13 +85,14 @@ class ObjectFabricator {
 
   fabricateObject(attrs) {
     this.generateId();
-    const filledAttrs = Object.keys(attrs).reduce((fabricatedObject, key) => {
+
+    Object.keys(attrs).forEach((key) => {
       const value = this.fillAttr(attrs[key]);
 
-      return { ...fabricatedObject, [key]: value };
-    }, {});
+      this.filledAttrs = { ...this.filledAttrs, [key]: value };
+    });
 
-    return { id: this.currentId, ...filledAttrs };
+    return { id: this.currentId, ...this.filledAttrs };
   }
 
   associationCreate(instance, attributes) {

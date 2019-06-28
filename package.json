@@ -1,6 +1,6 @@
 {
   "name": "@homerun-gmbh/object-fabricator",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "A simple JavaScript object fabricator.",
   "main": "src/index.js",
   "scripts": {
@@ -22,5 +22,6 @@
     "@babel/preset-env": "^7.4.3",
     "babel-jest": "^24.7.1",
     "jest": "^24.7.1"
-  }
+  },
+  "dependencies": {}
 }
